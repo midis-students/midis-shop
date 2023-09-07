@@ -8,8 +8,13 @@ import {
 import { Label } from '@/components/ui/label.tsx';
 import { Input } from '@/components/ui/input.tsx';
 import { Button } from '@/components/ui/button.tsx';
+import { makeAuth } from '@/lib/api.ts';
 
 export const LoginBlock: FC = () => {
+  const onSignin = () => {
+    makeAuth();
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -24,7 +29,9 @@ export const LoginBlock: FC = () => {
           <Label htmlFor="password">Пароль</Label>
           <Input id="password" type={'password'} placeholder="**********" />
         </div>
-        <Button className={'w-full'}>Войти</Button>
+        <Button className={'w-full'} onClick={onSignin}>
+          Войти
+        </Button>
       </CardContent>
     </Card>
   );

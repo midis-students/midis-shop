@@ -9,7 +9,7 @@ import {
 export const ShopItem: FC = () => {
   return (
     <Card>
-      <img src={'/coffee.jpg'} alt={'кофе'} />
+      <img src={'/coffee.jpg'} alt={'кофе'} loading={'lazy'} />
       <CardHeader>
         <CardTitle>Кофее!</CardTitle>
         <CardDescription>Кофее с сердечкой</CardDescription>

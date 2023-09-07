@@ -1,11 +1,14 @@
 import { FC } from 'react';
 import { ShopItem } from '@/components/Item';
 
-const items = Array.from({ length: 10 });
+import Style from './style.module.css';
+import { cn } from '@/lib/utils.ts';
+
+const items = Array.from({ length: 100 });
 
 const MainPage: FC = () => {
   return (
-    <section className={'grid grid-cols-6 gap-4'}>
+    <section className={cn('grid gap-4', Style['shop-grid'])}>
       {items.map((_, i) => (
         <ShopItem key={i} />
       ))}

@@ -1,0 +1,3 @@
+.shop-grid {
+    grid-template-columns: repeat( auto-fit, minmax(192px, 1fr) );
+}

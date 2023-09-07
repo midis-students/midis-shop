@@ -8,7 +8,7 @@ export const Layout: FC = () => {
   return (
     <>
       <Header />
-      <main className={'h-full p-4 max-w-screen-xl ml-auto mr-auto'}>
+      <main className={'p-4 max-w-screen-2xl w-full ml-auto mr-auto'}>
         <Outlet />
       </main>
       <Footer />

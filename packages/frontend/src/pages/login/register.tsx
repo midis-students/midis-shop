@@ -8,6 +8,7 @@ import {
 import { Label } from '@/components/ui/label.tsx';
 import { Input } from '@/components/ui/input.tsx';
 import { Button } from '@/components/ui/button.tsx';
+import { makeAuth } from '@/lib/api.ts';
 
 export const RegisterBlock: FC = () => {
   return (
@@ -24,7 +25,9 @@ export const RegisterBlock: FC = () => {
           <Label htmlFor="password">Пароль</Label>
           <Input id="password" type={'password'} placeholder="**********" />
         </div>
-        <Button className={'w-full'}>Создать</Button>
+        <Button className={'w-full'} onClick={makeAuth}>
+          Создать
+        </Button>
       </CardContent>
     </Card>
   );
