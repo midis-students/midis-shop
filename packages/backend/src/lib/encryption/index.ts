@@ -9,7 +9,7 @@ export class Encrypter {
     this.key = encryptionKey;
   }
 
-  encrypt(plaintext: string, nBits: number = 256) {
+  encrypt(plaintext: string, nBits = 256) {
     if (!(nBits == 128 || nBits == 192 || nBits == 256)) return '';
     const nBytes = nBits / 8;
     const pwBytes: Array<number> = new Array(nBytes);
@@ -36,23 +36,23 @@ export class Encrypter {
     let ctrTxt = '';
     for (let i = 0; i < 8; i++) ctrTxt += String.fromCharCode(counterBlock[i]);
 
-    let keySchedule: KeySchedule = keyExpansion(key);
+    const keySchedule: KeySchedule = keyExpansion(key);
 
-    let blockCount = Math.ceil(plaintext.length / this.blockSize);
-    let ciphertxt = new Array(blockCount);
+    const blockCount = Math.ceil(plaintext.length / this.blockSize);
+    const ciphertxt = new Array(blockCount);
 
     for (let b = 0; b < blockCount; b++) {
       for (let c = 0; c < 4; c++) counterBlock[15 - c] = (b >>> (c * 8)) & 0xff;
       for (let c = 0; c < 4; c++)
         counterBlock[15 - c - 4] = (b / 0x100000000) >>> (c * 8);
 
-      let cipherCntr = cipher(counterBlock, keySchedule);
+      const cipherCntr = cipher(counterBlock, keySchedule);
 
-      let blockLength =
+      const blockLength =
         b < blockCount - 1
           ? this.blockSize
           : ((plaintext.length - 1) % this.blockSize) + 1;
-      let cipherChar = new Array(blockLength);
+      const cipherChar = new Array(blockLength);
 
       for (let i = 0; i < blockLength; i++) {
         cipherChar[i] =
@@ -67,8 +67,8 @@ export class Encrypter {
     return ciphertext;
   }
 
-  dencrypt(encryptedText: string, nBits: number = 256) {
-    let blockSize = 16;
+  dencrypt(encryptedText: string, nBits = 256) {
+    const blockSize = 16;
     if (!(nBits == 128 || nBits == 192 || nBits == 256)) return '';
     encryptedText = Buffer.from(encryptedText, 'base64').toString('utf-8');
 
@@ -81,29 +81,29 @@ export class Encrypter {
     let key = cipher(pwBytes, keyExpansion(pwBytes));
     key = key.concat(key.slice(0, nBytes - 16));
 
-    let counterBlock = new Array(8);
+    const counterBlock = new Array(8);
     for (let i = 0; i < 8; i++)
       counterBlock[i] = encryptedText.slice(0, 8).charCodeAt(i);
 
-    let keySchedule = keyExpansion(key);
+    const keySchedule = keyExpansion(key);
 
-    let nBlocks = Math.ceil((encryptedText.length - 8) / blockSize);
-    let ct = new Array(nBlocks);
+    const nBlocks = Math.ceil((encryptedText.length - 8) / blockSize);
+    const ct = new Array(nBlocks);
     for (let b = 0; b < nBlocks; b++)
       ct[b] = encryptedText.slice(
         8 + b * blockSize,
         8 + b * blockSize + blockSize
       );
 
-    let plaintxt = new Array(ct.length);
+    const plaintxt = new Array(ct.length);
 
     for (let b = 0; b < nBlocks; b++) {
       for (let c = 0; c < 4; c++) counterBlock[15 - c] = (b >>> (c * 8)) & 0xff;
       for (let c = 0; c < 4; c++)
         counterBlock[15 - c - 4] =
           (((b + 1) / 0x100000000 - 1) >>> (c * 8)) & 0xff;
-      let cipherCntr = cipher(counterBlock, keySchedule);
-      let plaintxtByte = new Array(ct[b].length);
+      const cipherCntr = cipher(counterBlock, keySchedule);
+      const plaintxtByte = new Array(ct[b].length);
       for (let i = 0; i < ct[b].length; i++) {
         plaintxtByte[i] = cipherCntr[i] ^ ct[b].charCodeAt(i);
         plaintxtByte[i] = String.fromCharCode(plaintxtByte[i]);
@@ -111,7 +111,6 @@ export class Encrypter {
       plaintxt[b] = plaintxtByte.join('');
     }
 
-    let plaintext = plaintxt.join('');
-    return plaintext;
+    return plaintxt.join('');
   }
 }

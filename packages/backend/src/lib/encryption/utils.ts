@@ -1,16 +1,16 @@
 import { RCon, SBox } from './constaints';
 import { KeySchedule, State } from './types';
 
-const Nb: number = 4;
+const Nb = 4;
 
 export function subWord(w: Array<number>) {
-  for (var i=0; i<4; i++) w[i] = SBox[w[i]];
+  for (let i = 0; i < 4; i++) w[i] = SBox[w[i]];
   return w;
 }
 
 export function rotWord(w: Array<number>) {
-  var tmp = w[0];
-  for (var i=0; i<3; i++) w[i] = w[i+1];
+  const tmp = w[0];
+  for (let i = 0; i < 3; i++) w[i] = w[i + 1];
   w[3] = tmp;
   return w;
 }
@@ -34,7 +34,7 @@ export function subBytes(state: State, Nb: number) {
 }
 
 export function shiftRows(state: State, Nb: number) {
-  let temp = new Array(4);
+  const temp = new Array(4);
   for (let i = 1; i < 4; i++) {
     for (let t = 0; t < 4; t++) temp[t] = state[i][(t + i) % Nb];
     for (let t = 0; t < 4; t++) state[i][t] = temp[t];
@@ -44,7 +44,7 @@ export function shiftRows(state: State, Nb: number) {
 
 export function mixColumns(state: State) {
   for (let i = 0; i < 4; i++) {
-    let a = new Array(4),
+    const a = new Array(4),
       b = new Array(4);
     for (let t = 0; t < 4; t++) {
       a[t] = state[t][i];
@@ -60,11 +60,11 @@ export function mixColumns(state: State) {
 }
 
 export function keyExpansion(key: Array<number>) {
-  let Nb = 4;
-  let Nk = key.length / 4;
-  let Nr = Nk + 6;
+  const Nb = 4;
+  const Nk = key.length / 4;
+  const Nr = Nk + 6;
 
-  let w: KeySchedule = new Array(Nb * (Nr + 1));
+  const w: KeySchedule = new Array(Nb * (Nr + 1));
   let temp = new Array(4);
 
   for (let i = 0; i < Nk; i++)
@@ -93,7 +93,7 @@ export function cipher(input: Array<number>, w: KeySchedule): Array<number> {
 
   state = addRoundKey(state, w, 0, Nb);
 
-  for (var round = 1; round < Nr; round++) {
+  for (let round = 1; round < Nr; round++) {
     state = subBytes(state, Nb);
     state = shiftRows(state, Nb);
     state = mixColumns(state);
@@ -104,7 +104,7 @@ export function cipher(input: Array<number>, w: KeySchedule): Array<number> {
   state = shiftRows(state, Nb);
   state = addRoundKey(state, w, Nr, Nb);
 
-  let output = new Array(4 * Nb);
+  const output = new Array(4 * Nb);
   for (let i = 0; i < 4 * Nb; i++) output[i] = state[i % 4][Math.floor(i / 4)];
   return output;
 }
