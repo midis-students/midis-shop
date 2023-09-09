@@ -31,16 +31,17 @@ export class AuthGuard implements CanActivate {
       throw new UnauthorizedException();
     }
 
-    try {
-      const payload = await this.jwtService.verifyAsync(token, {
-        secret: this.configService.secretKey,
-      });
+    const payload = await this.jwtService.verifyAsync(token, {
+      secret: this.configService.secretKey,
+    });
 
-      /* Добавить роль в jwt токен или запрашивать из базы */
-      return requiredRoles.some((role) => payload.roles?.includes(role));
-    } catch {
+    const user = await this.authService.findOne(payload.id);
+
+    if (!user) {
       throw new UnauthorizedException();
     }
+
+    return requiredRoles.some((role) => user.roles.includes(role));
   }
 
   private extractTokenFromHeader(request: Request): string | undefined {

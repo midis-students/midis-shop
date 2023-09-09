@@ -12,6 +12,6 @@ export class AuthEntity {
   @Column()
   password: string;
 
-  @Column('string')
+  @Column('varchar', { array: true, default: [Role.User] })
   roles: Role[];
 }

@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { LoginDto } from './dto/login.dto';
 import { Repository } from 'typeorm';
 import { AuthEntity } from './entities/auth.entity';
@@ -6,6 +10,7 @@ import { JwtService } from '@nestjs/jwt';
 import { Encrypter } from '@/lib/encrypter';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AppConfigService } from '@/common/config/config.service';
+import { Role } from '@/core/auth/auth.enum';
 
 @Injectable()
 export class AuthService {
@@ -21,32 +26,50 @@ export class AuthService {
   }
 
   async login(loginDto: LoginDto) {
-    let user = await this.authRepository.findOne({
+    const user = await this.authRepository.findOne({
       where: { email: loginDto.email },
     });
-    if (!user) {
-      user = this.authRepository.create({
-        email: loginDto.email,
-        password: this.encrypter.encrypt(loginDto.password),
-      });
 
-      await this.authRepository.save(user);
+    if (!user) {
+      throw new NotFoundException('user not found');
     }
 
     return {
       access_token: await this.jwtService.signAsync({
-        /* Переделать как в auth.guard */
-        user_id: session.user_id,
-        time: session.time,
+        user_id: user.id,
       }),
     };
   }
 
+  async register(dto: LoginDto) {
+    let user = await this.authRepository.findOne({
+      where: { email: dto.email },
+    });
+    if (user) throw new ForbiddenException('email already exists');
+
+    user = this.authRepository.create({
+      email: dto.email,
+      password: this.encrypt(dto.password),
+    });
+
+    await this.authRepository.save(user);
+
+    return user;
+  }
+
   findAll() {
-    return `This action returns all auth`;
+    return this.authRepository.find();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} auth`;
+    return this.authRepository.findOne({ where: { id } });
+  }
+
+  private encrypt(password: string) {
+    return password;
+  }
+
+  private decrypt(password: string) {
+    return password;
   }
 }
