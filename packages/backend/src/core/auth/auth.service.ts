@@ -3,7 +3,7 @@ import { LoginDto } from './dto/login.dto';
 import { Repository } from 'typeorm';
 import { AuthEntity } from './entities/auth.entity';
 import { JwtService } from '@nestjs/jwt';
-import { Encrypter } from '@/lib/encrypter';
+import { Encrypter } from '@/lib/encryption/encrypter';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AppConfigService } from '@/common/config/config.service';
 
