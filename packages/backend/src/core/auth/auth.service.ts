@@ -7,10 +7,9 @@ import { LoginDto } from './dto/login.dto';
 import { Repository } from 'typeorm';
 import { AuthEntity } from './entities/auth.entity';
 import { JwtService } from '@nestjs/jwt';
-import { Encrypter } from '@/lib/encryption/encrypter';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AppConfigService } from '@/common/config/config.service';
-import { Role } from '@/core/auth/auth.enum';
+import { Encrypter } from '@/lib/encryption';
 
 @Injectable()
 export class AuthService {
@@ -22,7 +21,7 @@ export class AuthService {
     @InjectRepository(AuthEntity)
     private authRepository: Repository<AuthEntity>
   ) {
-    this.encrypter = new Encrypter(configService.secretKey);
+    this.encrypter = new Encrypter(this.configService.secretKey);
   }
 
   async login(loginDto: LoginDto) {
@@ -32,6 +31,10 @@ export class AuthService {
 
     if (!user) {
       throw new NotFoundException('user not found');
+    }
+
+    if (loginDto.password !== this.decrypt(user.password)) {
+      throw new ForbiddenException('password incorrect');
     }
 
     return {
@@ -66,10 +69,10 @@ export class AuthService {
   }
 
   private encrypt(password: string) {
-    return password;
+    return this.encrypter.encrypt(password);
   }
 
   private decrypt(password: string) {
-    return password;
+    return this.encrypter.dencrypt(password);
   }
 }

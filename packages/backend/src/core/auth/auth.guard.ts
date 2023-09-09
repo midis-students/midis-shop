@@ -41,6 +41,8 @@ export class AuthGuard implements CanActivate {
       throw new UnauthorizedException();
     }
 
+    request.user = user;
+
     return requiredRoles.some((role) => user.roles.includes(role));
   }
 
