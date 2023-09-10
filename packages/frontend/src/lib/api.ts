@@ -1,6 +1,5 @@
 import { useAuth } from '@/store/auth.ts';
 
-export const makeAuth = () => useAuth.setState({ access_token: 'bruh' });
 export const logout = () => useAuth.setState({ access_token: null });
 
 export class Api {
@@ -9,6 +8,10 @@ export class Api {
   access_token?: string;
 
   static instance = new Api();
+
+  me() {
+    return this.request('auth/me', { method: 'GET' });
+  }
 
   login(email: string, password: string) {
     return this.request('auth/login', {
@@ -36,9 +39,27 @@ export class Api {
       });
     }
 
-    return fetch(url, {
+    const response = await fetch(url, {
       ...config,
       headers,
-    }).then((res) => res.json());
+    });
+
+    const json = await response.json();
+
+    if ('error' in json) {
+      throw new ApiError(json);
+    }
+
+    return json;
+  }
+}
+
+export class ApiError {
+  readonly error!: string;
+  readonly message!: string | string[];
+  readonly statusCode!: number;
+
+  constructor(props: Partial<ApiError>) {
+    Object.assign(this, props);
   }
 }

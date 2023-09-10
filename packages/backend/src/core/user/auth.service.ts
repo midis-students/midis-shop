@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { LoginDto } from './dto/login.dto';
 import { Repository } from 'typeorm';
-import { AuthEntity } from './entities/auth.entity';
+import { User } from './entities/user';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AppConfigService } from '@/common/config/config.service';
@@ -18,8 +18,8 @@ export class AuthService {
   constructor(
     private jwtService: JwtService,
     private configService: AppConfigService,
-    @InjectRepository(AuthEntity)
-    private authRepository: Repository<AuthEntity>
+    @InjectRepository(User)
+    private authRepository: Repository<User>
   ) {
     this.encrypter = new Encrypter(this.configService.secretKey);
   }
@@ -30,11 +30,11 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new NotFoundException('user not found');
+      throw new NotFoundException('пользователь с такой почтой не найден');
     }
 
     if (loginDto.password !== this.decrypt(user.password)) {
-      throw new ForbiddenException('password incorrect');
+      throw new ForbiddenException('не правильный пароль');
     }
 
     return {
@@ -48,7 +48,10 @@ export class AuthService {
     let user = await this.authRepository.findOne({
       where: { email: dto.email },
     });
-    if (user) throw new ForbiddenException('email already exists');
+    if (user)
+      throw new ForbiddenException(
+        'пользователь с такой почтой уже существует'
+      );
 
     user = this.authRepository.create({
       email: dto.email,
@@ -57,7 +60,11 @@ export class AuthService {
 
     await this.authRepository.save(user);
 
-    return user;
+    return {
+      access_token: await this.jwtService.signAsync({
+        user_id: user.id,
+      }),
+    };
   }
 
   findAll() {

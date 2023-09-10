@@ -10,10 +10,9 @@ import {
 } from '@nestjs/common';
 import { ShopService } from './shop.service';
 import { CreateItemDto } from './dto/upload.dto';
-import { AuthGuard } from '../auth/auth.guard';
-import { Roles } from '../auth/auth.decorator';
-import { Role } from '../auth/auth.enum';
-
+import { AuthGuard } from '../user/auth.guard';
+import { Role } from '@/core/user/auth.enum';
+import { Roles } from '@/core/user/auth.decorator';
 @Controller('shop')
 export class ShopController {
   constructor(private readonly shopService: ShopService) {}

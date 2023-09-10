@@ -5,13 +5,13 @@ import { AppConfigService } from '@/common/config/config.service';
 
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { AuthEntity } from './entities/auth.entity';
+import { User } from './entities/user';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([AuthEntity]),
+    TypeOrmModule.forFeature([User]),
     JwtModule.registerAsync({
       imports: [AppConfigModule],
       inject: [AppConfigService],
