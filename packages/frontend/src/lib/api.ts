@@ -13,6 +13,10 @@ export class Api {
     return this.request('auth/me', { method: 'GET' });
   }
 
+  basket() {
+    return this.request('basket', { method: 'GET' });
+  }
+
   login(email: string, password: string) {
     return this.request('auth/login', {
       method: 'POST',

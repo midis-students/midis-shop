@@ -1,6 +1,6 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Role } from '../auth.enum';
-import { Basket } from '@/core/basket/entity/user.entity';
+import { Basket } from '@/core/basket/entity/basket.entity';
 
 @Entity('users')
 export class User {

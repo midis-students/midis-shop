@@ -1,12 +1,12 @@
 export const enum Role {
   Admin = 'admin',
-  Default = 'default',
+  Default = 'user',
 }
 
 export interface User {
   email: string;
   password?: string;
-  role: Role[];
+  roles: Role[];
 }
 
 export interface Item {

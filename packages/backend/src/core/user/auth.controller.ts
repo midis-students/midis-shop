@@ -2,7 +2,7 @@ import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { Roles, UserField } from '@/core/user/auth.decorator';
-import { User } from '@/core/user/entities/user';
+import { User } from '@/core/user/entities/user.entity';
 import { AuthGuard } from '@/core/user/auth.guard';
 import { Role } from '@/core/user/auth.enum';
 

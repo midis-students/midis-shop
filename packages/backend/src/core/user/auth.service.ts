@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { LoginDto } from './dto/login.dto';
 import { Repository } from 'typeorm';
-import { User } from './entities/user';
+import { User } from './entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AppConfigService } from '@/common/config/config.service';

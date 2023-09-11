@@ -8,11 +8,15 @@ import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button.tsx';
 import { useIsAuth } from '@/store/auth.ts';
 import { logout } from '@/lib/api.ts';
+import { useIsAdmin } from '@/store/user.ts';
 
 export const Header: FC = () => {
   const location = useLocation();
   const isLogin = location.pathname === '/login';
   const isAuth = useIsAuth();
+  const isAdmin = useIsAdmin();
+
+  console.log(isAdmin);
 
   return (
     <header className={'p-4 flex justify-between border-b mb-4'}>
@@ -28,6 +32,14 @@ export const Header: FC = () => {
       <div className={'flex gap-2'}>
         {isAuth ? (
           <>
+            {isAdmin && (
+              <Link to={'/admin'}>
+                <Button className={'flex gap-1 items-center accent-red-400'}>
+                  <img src={IconBasket} width={20} alt={'авторизация'} />
+                  <span>Админка</span>
+                </Button>
+              </Link>
+            )}
             <Link to={'/basket'}>
               <Button className={'flex gap-1 items-center'}>
                 <img src={IconBasket} width={20} alt={'авторизация'} />

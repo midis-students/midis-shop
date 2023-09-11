@@ -1,9 +1,7 @@
 import { FC } from 'react';
-import { ShopItem } from '@/components/Item';
 
-import Style from './style.module.css';
-import { cn } from '@/lib/utils.ts';
 import { Item } from '@/types/api.type.ts';
+import { ItemGrid } from '@/components/ItemGrid';
 
 const images = [
   '/coffee/chai latte.png',
@@ -21,13 +19,7 @@ const items = Array.from({ length: 100 }).map<Item>((_, id) => ({
 }));
 
 const MainPage: FC = () => {
-  return (
-    <section className={cn('grid gap-4', Style['shop-grid'])}>
-      {items.map((item) => (
-        <ShopItem key={item.id} item={item} />
-      ))}
-    </section>
-  );
+  return <ItemGrid items={items} />;
 };
 
 export default MainPage;

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ItemEntity } from './entities/item.entity';
+import { Item } from './entities/item.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateItemDto } from './dto/upload.dto';
@@ -7,8 +7,8 @@ import { CreateItemDto } from './dto/upload.dto';
 @Injectable()
 export class ShopService {
   constructor(
-    @InjectRepository(ItemEntity)
-    private itemRepository: Repository<ItemEntity>
+    @InjectRepository(Item)
+    private itemRepository: Repository<Item>
   ) {}
 
   findById(id: number) {

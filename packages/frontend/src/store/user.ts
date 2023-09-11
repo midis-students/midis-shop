@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { User } from '@/types/api.type.ts';
+import { Role, User } from '@/types/api.type.ts';
 
 type UserState = {
   current: User | null;
@@ -10,3 +10,6 @@ export const useUser = create<UserState>((set) => ({
   current: null,
   set: (current) => set({ current }),
 }));
+
+export const useIsAdmin = () =>
+  useUser((select) => select.current)?.roles?.includes(Role.Admin);
