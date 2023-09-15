@@ -23,11 +23,7 @@ export class Api {
   }
 
   basketRemoveItem(id: number) {
-    return this.request('basket/' + id, { method: 'PATCH' });
-  }
-
-  basketClear() {
-    return this.request('basket', { method: 'DELETE' });
+    return this.request('basket/' + id, { method: 'DELETE' });
   }
 
   users() {

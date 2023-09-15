@@ -24,14 +24,9 @@ export class BasketController {
     return this.basketService.addItem(user, id);
   }
 
-  @Patch(':id')
+  @Delete(':id')
   removeItem(@UserField() user: User, @Param('id') id: number) {
     return this.basketService.removeItem(user, id);
-  }
-
-  @Delete()
-  clear(@UserField() user: User) {
-    return this.basketService.clear(user);
   }
 
   @Get()
