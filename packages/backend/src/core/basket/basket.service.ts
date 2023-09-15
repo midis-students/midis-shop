@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Basket } from '@/core/basket/entity/basket.entity';
 import { Repository } from 'typeorm';
@@ -16,15 +16,22 @@ export class BasketService {
     const item = await this.basketResository.findOne({
       where: { id },
     });
-    user.basket.push(item);
-    this.userService.save(user);
+
+    if (!item) throw new NotFoundException('item not found');
+
+    if (user.basket) {
+      user.basket.push(item);
+    } else {
+      user.basket = [item];
+    }
+    await this.userService.save(user);
     return user.basket;
   }
 
   async removeItem(user: User, id: number) {
     const itemIndex = user.basket.findIndex((tempItem) => tempItem.id == id);
     user.basket.splice(itemIndex, 1);
-    this.userService.save(user);
+    await this.userService.save(user);
     return user.basket;
   }
 

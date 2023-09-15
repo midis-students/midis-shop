@@ -1,4 +1,4 @@
-import { IsBase64, IsNotEmpty, IsNumber, IsString, Min } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString, Min } from 'class-validator';
 
 export class CreateItemDto {
   @IsNotEmpty()
@@ -15,6 +15,6 @@ export class CreateItemDto {
   price: number;
 
   @IsNotEmpty()
-  @IsBase64()
+  @IsString()
   image: string;
 }

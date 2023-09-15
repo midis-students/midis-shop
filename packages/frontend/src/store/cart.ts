@@ -12,16 +12,16 @@ type CartState = {
 export const useCart = create<CartState>((set, get) => ({
   items: [],
   itemInCart(item: Item) {
-    let { items } = get();
+    const { items } = get();
     return !!items.find((tempItem) => tempItem.id == item.id);
   },
   addItem(item: Item) {
-    let { items } = get();
+    const { items } = get();
     items.push(item);
     set({ items });
   },
   removeItem(item: Item) {
-    let { items } = get();
+    const { items } = get();
     const itemIindex = items.findIndex((tempItem) => tempItem.id == item.id);
     items.splice(itemIindex, 1);
     set({ items });

@@ -76,7 +76,7 @@ export class AuthService {
   }
 
   save(user: User) {
-    this.authRepository.save(user);
+    return this.authRepository.save(user);
   }
 
   async decryptUser(id: number) {

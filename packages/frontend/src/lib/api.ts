@@ -1,5 +1,5 @@
 import { useAuth } from '@/store/auth.ts';
-import { User, UserPassword } from '@/types/api.type.ts';
+import { ShopItem, User, UserPassword } from '@/types/api.type.ts';
 
 export const logout = () => useAuth.setState({ access_token: null });
 
@@ -33,6 +33,22 @@ export class Api {
       method: 'POST',
       body: JSON.stringify({ email, password }),
     });
+  }
+
+  createItem(body: {
+    name: string;
+    description: string;
+    price: number;
+    image: string;
+  }) {
+    return this.request('shop', {
+      method: 'POST',
+      body: JSON.stringify(body),
+    });
+  }
+
+  getShopItems() {
+    return this.request<ShopItem[]>('shop', { method: 'GET' });
   }
 
   decrypt(userId: number) {

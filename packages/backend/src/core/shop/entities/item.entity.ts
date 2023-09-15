@@ -11,7 +11,7 @@ export class Item {
   @Column()
   description: string;
 
-  @Column()
+  @Column('text', { default: '' })
   image: string;
 
   @Column()
