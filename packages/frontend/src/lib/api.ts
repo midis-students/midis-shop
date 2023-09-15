@@ -1,5 +1,5 @@
 import { useAuth } from '@/store/auth.ts';
-import { UserPassword } from '@/types/api.type.ts';
+import { User, UserPassword } from '@/types/api.type.ts';
 
 export const logout = () => useAuth.setState({ access_token: null });
 
@@ -19,7 +19,7 @@ export class Api {
   }
 
   users() {
-    return this.request('auth/users', { method: 'GET' });
+    return this.request<User[]>('auth/users', { method: 'GET' });
   }
 
   login(email: string, password: string) {

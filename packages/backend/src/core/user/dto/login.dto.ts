@@ -6,8 +6,8 @@ export class LoginDto {
   email: string;
   @IsNotEmpty()
   @IsString()
-  @Length(6, 16, {
-    message: 'пароль должен быть больше 6 и меньше 16 символов',
+  @Length(6, 128, {
+    message: 'пароль должен быть больше 6 и меньше 128 символов',
   })
   password: string;
 }

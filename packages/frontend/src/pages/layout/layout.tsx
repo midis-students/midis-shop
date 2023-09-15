@@ -3,18 +3,12 @@ import { Outlet, useLocation } from 'react-router-dom';
 
 import { Header } from '@/pages/layout/header.tsx';
 import { Footer } from '@/pages/layout/footer.tsx';
-import { UserPopout } from '@/pages/popouts/users.tsx';
-
-const popouts = {
-  user: UserPopout,
-};
+import { popouts, PopoutsKeys } from '@/pages/popouts';
 
 export const Layout: FC = () => {
   const location = useLocation();
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  ///@ts-ignore
-  const Popout = popouts[location.state?.popout] ?? null;
+  const Popout = popouts[location.state?.popout as PopoutsKeys] ?? null;
 
   return (
     <>

@@ -9,19 +9,19 @@ import {
   TableRow,
 } from '@/components/ui/table.tsx';
 import { Api } from '@/lib/api.ts';
-import { useNavigate } from 'react-router-dom';
+import { usePopout } from '@/hooks/usePopout.ts';
 
 export const UsersBlock: FC = () => {
   const [users, setUsers] = useState<User[]>([]);
 
-  const navigate = useNavigate();
+  const showUser = usePopout('user');
 
   useEffect(() => {
     Api.instance.users().then(setUsers);
   }, []);
 
   const onClick = (id: number) => {
-    navigate('', { state: { popout: 'user', data: { id } } });
+    showUser({ id });
   };
 
   return (
@@ -36,7 +36,11 @@ export const UsersBlock: FC = () => {
       </TableHeader>
       <TableBody>
         {users.map((user) => (
-          <TableRow key={user.id} onClick={() => onClick(user.id)}>
+          <TableRow
+            key={user.id}
+            onClick={() => onClick(user.id)}
+            style={{ cursor: 'pointer' }}
+          >
             <TableCell>{user.id}</TableCell>
             <TableCell>{user.email}</TableCell>
             <TableCell>

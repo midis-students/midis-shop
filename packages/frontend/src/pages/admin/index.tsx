@@ -6,6 +6,7 @@ import {
   TabsTrigger,
 } from '@/components/ui/tabs.tsx';
 import { UsersBlock } from '@/pages/admin/users.tsx';
+import { ItemsBlock } from '@/pages/admin/items.tsx';
 
 const AdminPage: FC = () => {
   return (
@@ -17,7 +18,9 @@ const AdminPage: FC = () => {
       <TabsContent value={'users'}>
         <UsersBlock />
       </TabsContent>
-      <TabsContent value={'items'}></TabsContent>
+      <TabsContent value={'items'}>
+        <ItemsBlock />
+      </TabsContent>
     </Tabs>
   );
 };
