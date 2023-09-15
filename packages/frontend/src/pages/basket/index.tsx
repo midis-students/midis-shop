@@ -8,7 +8,9 @@ const BasketPage: FC = () => {
   const user = useUser((select) => select.current!);
   const { items, sync } = useBasket();
 
-  Api.instance.basket().then(sync);
+  useEffect(() => {
+    Api.instance.basket().then(sync);
+  }, []);
 
   return (
     <section>
