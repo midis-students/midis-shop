@@ -3,6 +3,11 @@ export const enum Role {
   Default = 'user',
 }
 
+export type Basket = {
+  item: Item;
+  count: number;
+};
+
 export interface User {
   id: number;
   email: string;
@@ -16,6 +21,7 @@ export interface Item {
   description: string;
   image: string;
   price: number;
+  deletable?: boolean;
 }
 
 export interface UserPassword {

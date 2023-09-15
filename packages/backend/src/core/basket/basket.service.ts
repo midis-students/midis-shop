@@ -28,7 +28,7 @@ export class BasketService {
     });
 
     if (basket) {
-      basket.count++;
+      //basket.count++;
     } else {
       basket = this.basketResository.create({
         user,
@@ -84,6 +84,7 @@ export class BasketService {
           id: userId,
         },
       },
+      relations: ['item'],
     });
   }
 }

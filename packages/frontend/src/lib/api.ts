@@ -1,5 +1,5 @@
 import { useAuth } from '@/store/auth.ts';
-import { Item, User, UserPassword } from '@/types/api.type.ts';
+import { Basket, Item, User, UserPassword } from '@/types/api.type.ts';
 
 export const logout = () => useAuth.setState({ access_token: null });
 
@@ -14,7 +14,7 @@ export class Api {
     return this.request('auth/me', { method: 'GET' });
   }
 
-  basket() {
+  basket(): Promise<Array<Basket>> {
     return this.request('basket', { method: 'GET' });
   }
 
