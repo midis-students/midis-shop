@@ -1,4 +1,5 @@
 import { useAuth } from '@/store/auth.ts';
+import { UserPassword } from '@/types/api.type.ts';
 
 export const logout = () => useAuth.setState({ access_token: null });
 
@@ -17,6 +18,10 @@ export class Api {
     return this.request('basket', { method: 'GET' });
   }
 
+  users() {
+    return this.request('auth/users', { method: 'GET' });
+  }
+
   login(email: string, password: string) {
     return this.request('auth/login', {
       method: 'POST',
@@ -30,7 +35,13 @@ export class Api {
     });
   }
 
-  async request(method: string, config: RequestInit) {
+  decrypt(userId: number) {
+    return this.request<UserPassword>(`auth/decrypt/${userId}`, {
+      method: 'GET',
+    });
+  }
+
+  async request<T>(method: string, config: RequestInit): Promise<T> {
     const url = new URL(method, this.baseUrl);
 
     const headers = {

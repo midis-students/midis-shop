@@ -75,6 +75,16 @@ export class AuthService {
     return this.authRepository.findOne({ where: { id } });
   }
 
+  async decryptUser(id: number) {
+    const user = await this.findOne(id);
+    if (!user) throw new NotFoundException('user not found');
+
+    return {
+      encrypted: user.password,
+      decrypted: this.decrypt(user.password),
+    };
+  }
+
   private encrypt(password: string) {
     return this.encrypter.encrypt(password);
   }

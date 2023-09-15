@@ -4,6 +4,7 @@ export const enum Role {
 }
 
 export interface User {
+  id: number;
   email: string;
   password?: string;
   roles: Role[];
@@ -15,4 +16,9 @@ export interface Item {
   description: string;
   image: string;
   price: number;
+}
+
+export interface UserPassword {
+  encrypted: string;
+  decrypted: string;
 }

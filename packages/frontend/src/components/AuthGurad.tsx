@@ -1,13 +1,13 @@
-import { FC, PropsWithChildren } from 'react';
+import { FC } from 'react';
 import { useIsAuth } from '@/store/auth.ts';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 
-export const AuthGuard: FC<PropsWithChildren> = ({ children }) => {
+export const AuthGuard: FC = () => {
   const isAuth = useIsAuth();
 
   if (!isAuth) {
     return <Navigate to={'/login'} />;
   }
 
-  return children;
+  return <Outlet />;
 };

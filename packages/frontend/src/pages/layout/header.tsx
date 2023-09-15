@@ -16,8 +16,6 @@ export const Header: FC = () => {
   const isAuth = useIsAuth();
   const isAdmin = useIsAdmin();
 
-  console.log(isAdmin);
-
   return (
     <header className={'p-4 flex justify-between border-b mb-4'}>
       <Link

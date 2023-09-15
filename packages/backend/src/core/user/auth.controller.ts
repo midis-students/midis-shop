@@ -17,6 +17,13 @@ export class AuthController {
     return this.authService.findOne(user.id);
   }
 
+  @Get('/users')
+  @UseGuards(AuthGuard)
+  @Roles(Role.Admin)
+  users() {
+    return this.authService.findAll();
+  }
+
   @Post('/login')
   login(@Body() loginDto: LoginDto) {
     return this.authService.login(loginDto);
@@ -29,5 +36,11 @@ export class AuthController {
   @Get(':id')
   findById(@Param('id') id: string) {
     return this.authService.findOne(+id);
+  }
+
+  @Get('decrypt/:id')
+  @Roles(Role.Admin)
+  decryptUser(@Param('id') id: string) {
+    return this.authService.decryptUser(+id);
   }
 }

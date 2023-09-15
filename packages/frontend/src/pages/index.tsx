@@ -4,10 +4,12 @@ import { Layout } from './layout/layout.tsx';
 import { Loadable } from '@/components/Loadable.tsx';
 import { NotFound } from '@/pages/errors/404.tsx';
 import { AuthGuard } from '@/components/AuthGurad.tsx';
+import { AdminGuard } from '@/components/AdminGurad.tsx';
 
 const MainPage = Loadable(lazy(() => import('./main')));
 const LoginPage = Loadable(lazy(() => import('./login')));
 const BasketPage = Loadable(lazy(() => import('./basket')));
+const AdminPage = Loadable(lazy(() => import('./admin')));
 
 export const Pages: FC = () => {
   return useRoutes([
@@ -23,12 +25,22 @@ export const Pages: FC = () => {
           element: <LoginPage />,
         },
         {
-          path: '/basket',
-          element: (
-            <AuthGuard>
-              <BasketPage />
-            </AuthGuard>
-          ),
+          element: <AuthGuard />,
+          children: [
+            {
+              path: '/basket',
+              element: <BasketPage />,
+            },
+            {
+              element: <AdminGuard />,
+              children: [
+                {
+                  path: '/admin',
+                  element: <AdminPage />,
+                },
+              ],
+            },
+          ],
         },
         {
           element: <NotFound />,
