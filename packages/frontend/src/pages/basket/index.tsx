@@ -1,16 +1,15 @@
 import { FC, useEffect, useState } from 'react';
 import { useUser } from '@/store/user.ts';
-import { Item } from '@/types/api.type.ts';
+import { Basket, Item } from '@/types/api.type.ts';
 import { Api } from '@/lib/api.ts';
 import { ItemGrid } from '@/components/ItemGrid';
+import { useBasket } from '@/store/basket';
 
 const BasketPage: FC = () => {
   const user = useUser((select) => select.current!);
-  const [basket, setBasket] = useState<Item[]>([]);
+  const { items } = useBasket();
 
-  useEffect(() => {
-    Api.instance.basket().then(setBasket);
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <section>
@@ -18,7 +17,9 @@ const BasketPage: FC = () => {
         Ваша корзина, {user.email}
       </h1>
       <hr className={'mt-4'} />
-      <ItemGrid items={basket} />
+      <ItemGrid
+        items={items.map(({ item }) => ({ deletable: true, ...item }))}
+      />
     </section>
   );
 };

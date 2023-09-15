@@ -7,18 +7,24 @@ import {
 } from '@/components/ui/card.tsx';
 import { Item } from '@/types/api.type.ts';
 import { useNavigate } from 'react-router-dom';
-import { useCart } from '@/store/cart';
+import { useBasket } from '@/store/basket';
 import { Api } from '@/lib/api';
 
 export const ShopItem: FC<{ item: Item }> = ({ item }) => {
   const navigate = useNavigate();
 
-  const { addItem } = useCart();
+  const { addItem, removeItem } = useBasket();
 
   const onClick = async () => {
-    navigate(`?item=${item.id}`);
-    addItem(item);
-    await Api.instance.basketAddItem(item.id);
+    console.log('item', item);
+    console.log('item.deleteble', item.deletable);
+    if (item.deletable) {
+      removeItem(item);
+      await Api.instance.basketRemoveItem(item.id);
+    } else {
+      addItem(item);
+      await Api.instance.basketAddItem(item.id);
+    }
   };
 
   return (
