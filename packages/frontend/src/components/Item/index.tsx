@@ -33,7 +33,7 @@ export const ShopItem: FC<{ item: Item }> = ({ item }) => {
           }
         >
           <span>{item.name}</span>
-          <div>
+          <div className={'flex items-center gap-2'}>
             <span className={'text-primary'}>
               {item.price.toLocaleString('ru', { maximumFractionDigits: 2 })}
             </span>

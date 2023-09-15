@@ -1,9 +1,9 @@
 import { UserPopout } from '@/pages/popouts/users.tsx';
-import { CreateItemPopout } from '@/pages/popouts/createItem.tsx';
+import { EditItemPopout } from '@/pages/popouts/createItem.tsx';
 
 export const popouts = {
   user: UserPopout,
-  createItem: CreateItemPopout,
+  createItem: EditItemPopout,
 };
 
 export type PopoutsKeys = keyof typeof popouts;

@@ -31,32 +31,46 @@ export class Api {
   }
 
   login(email: string, password: string) {
-    return this.request('auth/login', {
+    return this.request<{ access_token: string }>('auth/login', {
       method: 'POST',
       body: JSON.stringify({ email, password }),
     });
   }
   register(email: string, password: string) {
-    return this.request('auth/register', {
+    return this.request<{ access_token: string }>('auth/register', {
       method: 'POST',
       body: JSON.stringify({ email, password }),
     });
   }
 
-  createItem(body: {
-    name: string;
-    description: string;
-    price: number;
-    image: string;
-  }) {
-    return this.request('shop', {
-      method: 'POST',
+  saveItem(
+    {
+      id,
+      ...body
+    }: {
+      id?: number;
+      name: string;
+      description: string;
+      price: number;
+      image: string;
+    },
+    method = 'POST'
+  ) {
+    return this.request(`shop/${id ?? ''}`, {
+      method,
       body: JSON.stringify(body),
     });
   }
 
   getShopItems() {
     return this.request<Item[]>('shop', { method: 'GET' });
+  }
+
+  getShopItem(id: number) {
+    return this.request<Item>(`shop/${id}`, { method: 'GET' });
+  }
+  deleteItem(id: number) {
+    return this.request<Item>(`shop/${id}`, { method: 'DELETE' });
   }
 
   decrypt(userId: number) {

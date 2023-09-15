@@ -1,20 +1,20 @@
 import { IsNotEmpty, IsNumber, IsString, Min } from 'class-validator';
 
 export class CreateItemDto {
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'имя не должна быть пустой' })
   @IsString()
   name: string;
 
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'описание не должна быть пустой' })
   @IsString()
   description: string;
 
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'цена не должна быть пустой' })
   @IsNumber()
   @Min(0)
   price: number;
 
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'изображение не должна быть пустой' })
   @IsString()
   image: string;
 }

@@ -1,3 +1,10 @@
 .shop-grid {
-    grid-template-columns: repeat( auto-fit, 200px );
+    --size: minmax(auto, 220px);
+    grid-template-columns: repeat( auto-fit, var(--size) );
+}
+
+@media screen and (max-width: 490px) {
+    .shop-grid {
+        --size: minmax(100%, 220px);
+    }
 }
