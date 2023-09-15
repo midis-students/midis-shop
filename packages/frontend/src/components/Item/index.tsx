@@ -7,12 +7,18 @@ import {
 } from '@/components/ui/card.tsx';
 import { Item } from '@/types/api.type.ts';
 import { useNavigate } from 'react-router-dom';
+import { useCart } from '@/store/cart';
+import { Api } from '@/lib/api';
 
 export const ShopItem: FC<{ item: Item }> = ({ item }) => {
   const navigate = useNavigate();
 
-  const onClick = () => {
+  const { addItem } = useCart();
+
+  const onClick = async () => {
     navigate(`?item=${item.id}`);
+    addItem(item);
+    await Api.instance.basketAddItem(item.id);
   };
 
   return (
@@ -39,3 +45,6 @@ export const ShopItem: FC<{ item: Item }> = ({ item }) => {
     </Card>
   );
 };
+function basketAddItem(id: number) {
+  throw new Error('Function not implemented.');
+}

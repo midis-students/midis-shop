@@ -4,7 +4,7 @@ import { ShopItem, User, UserPassword } from '@/types/api.type.ts';
 export const logout = () => useAuth.setState({ access_token: null });
 
 export class Api {
-  readonly baseUrl = 'http://localhost:3000/';
+  readonly baseUrl = 'https://a9e6-178-178-88-243.ngrok-free.app/';
 
   access_token?: string;
 
@@ -16,6 +16,18 @@ export class Api {
 
   basket() {
     return this.request('basket', { method: 'GET' });
+  }
+
+  basketAddItem(id: number) {
+    return this.request('basket/' + id, { method: 'POST' });
+  }
+
+  basketRemoveItem(id: number) {
+    return this.request('basket/' + id, { method: 'PATCH' });
+  }
+
+  basketClear() {
+    return this.request('basket', { method: 'DELETE' });
   }
 
   users() {
