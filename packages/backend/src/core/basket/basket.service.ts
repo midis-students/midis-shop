@@ -44,6 +44,7 @@ export class BasketService {
           id: user.id,
         },
       },
+      relations: ['item'],
     });
   }
 
@@ -68,12 +69,14 @@ export class BasketService {
           id: user.id,
         },
       },
+      relations: ['item'],
     });
   }
 
   findOne(userId: number, id: number) {
     return this.basketResository.findOne({
       where: { id, user: { id: userId } },
+      relations: ['item'],
     });
   }
 

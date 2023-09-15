@@ -6,6 +6,7 @@ type BasketState = {
   itemInBasket: (item: Item) => boolean;
   addItem: (item: Item) => void;
   removeItem: (item: Item) => void;
+  sync: (items: Array<Basket>) => void;
 };
 
 export const useBasket = create<BasketState>((set, get) => ({
@@ -42,5 +43,8 @@ export const useBasket = create<BasketState>((set, get) => ({
       }
       set({ items });
     }
+  },
+  sync(items: Basket[]) {
+    set({ items });
   },
 }));

@@ -51,6 +51,3 @@ export const ShopItem: FC<{ item: Item }> = ({ item }) => {
     </Card>
   );
 };
-function basketAddItem(id: number) {
-  throw new Error('Function not implemented.');
-}
