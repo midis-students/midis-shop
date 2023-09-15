@@ -75,6 +75,10 @@ export class AuthService {
     return this.authRepository.findOne({ where: { id } });
   }
 
+  save(user: User) {
+    this.authRepository.save(user);
+  }
+
   async decryptUser(id: number) {
     const user = await this.findOne(id);
     if (!user) throw new NotFoundException('user not found');
