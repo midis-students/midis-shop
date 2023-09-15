@@ -1,10 +1,10 @@
 import { useAuth } from '@/store/auth.ts';
-import { ShopItem, User, UserPassword } from '@/types/api.type.ts';
+import { Item, User, UserPassword } from '@/types/api.type.ts';
 
 export const logout = () => useAuth.setState({ access_token: null });
 
 export class Api {
-  readonly baseUrl = 'https://a9e6-178-178-88-243.ngrok-free.app/';
+  readonly baseUrl = 'http://localhost:3000/';
 
   access_token?: string;
 
@@ -60,7 +60,7 @@ export class Api {
   }
 
   getShopItems() {
-    return this.request<ShopItem[]>('shop', { method: 'GET' });
+    return this.request<Item[]>('shop', { method: 'GET' });
   }
 
   decrypt(userId: number) {
