@@ -38,9 +38,9 @@ export class AuthController {
     return this.authService.findOne(+id);
   }
 
-  @Get('decrypt/:id')
+  @Get('decrypt/:email')
   @Roles(Role.Admin)
-  decryptUser(@Param('id') id: string) {
-    return this.authService.decryptUser(+id);
+  decryptUser(@Param('email') email: string) {
+    return this.authService.decryptUser(email);
   }
 }

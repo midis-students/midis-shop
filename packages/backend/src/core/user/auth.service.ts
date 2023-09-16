@@ -75,12 +75,16 @@ export class AuthService {
     return this.authRepository.findOne({ where: { id } });
   }
 
+  findByEmail(email: string) {
+    return this.authRepository.findOneBy({ email });
+  }
+
   save(user: User) {
     return this.authRepository.save(user);
   }
 
-  async decryptUser(id: number) {
-    const user = await this.findOne(id);
+  async decryptUser(email: string) {
+    const user = await this.findByEmail(email);
     if (!user) throw new NotFoundException('user not found');
 
     return {

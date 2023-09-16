@@ -26,14 +26,10 @@ export class BasketService {
       where: { user: { id: user.id }, item: { id } },
       relations: ['item'],
     });
-
-    if (basket) {
-      //basket.count++;
-    } else {
+    if (!basket) {
       basket = this.basketResository.create({
         user,
         item,
-        count: 1,
       });
     }
 
@@ -56,12 +52,7 @@ export class BasketService {
 
     if (!basket) throw new NotFoundException('basket not found');
 
-    if (basket.count > 1) {
-      basket.count--;
-      await this.basketResository.save(basket);
-    } else {
-      await this.basketResository.delete({ id: basket.id });
-    }
+    await this.basketResository.delete({ id: basket.id });
 
     return this.basketResository.find({
       where: {

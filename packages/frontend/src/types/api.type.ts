@@ -5,7 +5,6 @@ export const enum Role {
 
 export type Basket = {
   item: Item;
-  count: number;
 };
 
 export interface User {

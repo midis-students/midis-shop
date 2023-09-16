@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
 import { useUser } from '@/store/user.ts';
 import { Api } from '@/lib/api.ts';
 import { ItemGrid } from '@/components/ItemGrid';
@@ -6,10 +6,10 @@ import { useBasket } from '@/store/basket';
 
 const BasketPage: FC = () => {
   const user = useUser((select) => select.current!);
-  const { items, sync } = useBasket();
+  const { items, set } = useBasket();
 
   useEffect(() => {
-    Api.instance.basket().then(sync);
+    Api.instance.basket().then(set);
   }, []);
 
   return (

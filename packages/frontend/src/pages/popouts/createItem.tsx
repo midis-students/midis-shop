@@ -13,7 +13,7 @@ import { Button } from '@/components/ui/button.tsx';
 import { Api, ApiError } from '@/lib/api.ts';
 
 export const EditItemPopout: FC<{ data: { id: number } }> = ({ data }) => {
-  const isEdit = !!data.id;
+  const isEdit = !!data.email;
   const navigate = useNavigate();
   const [preview, setPreview] = useState<string | null>(null);
   const [name, setName] = useState('');
@@ -35,14 +35,14 @@ export const EditItemPopout: FC<{ data: { id: number } }> = ({ data }) => {
 
   useEffect(() => {
     if (isEdit) {
-      Api.instance.getShopItem(data.id).then((data) => {
+      Api.instance.getShopItem(data.email).then((data) => {
         setName(data.name);
         setDescription(data.description);
         setPrice(data.price);
         setPreview(data.image);
       });
     }
-  }, [data.id, isEdit]);
+  }, [data.email, isEdit]);
 
   const onSave = async () => {
     if (!preview) return;
@@ -53,7 +53,7 @@ export const EditItemPopout: FC<{ data: { id: number } }> = ({ data }) => {
           description,
           price,
           image: preview,
-          id: data.id,
+          id: data.email,
         },
         isEdit ? 'PATCH' : 'POST'
       );
@@ -68,7 +68,7 @@ export const EditItemPopout: FC<{ data: { id: number } }> = ({ data }) => {
 
   const onDelete = async () => {
     if (!isEdit) return;
-    await Api.instance.deleteItem(data.id);
+    await Api.instance.deleteItem(data.email);
     navigate(-1);
   };
 

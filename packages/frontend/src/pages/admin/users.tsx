@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/table.tsx';
 import { Api } from '@/lib/api.ts';
 import { usePopout } from '@/hooks/usePopout.ts';
+import { Button } from '@/components/ui/button.tsx';
 
 export const UsersBlock: FC = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -20,42 +21,45 @@ export const UsersBlock: FC = () => {
     Api.instance.users().then(setUsers);
   }, []);
 
-  const onClick = (id: number) => {
-    showUser({ id });
+  const onClick = (email: string) => {
+    showUser({ email });
   };
 
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead>#</TableHead>
-          <TableHead>Email</TableHead>
-          <TableHead>Пароль</TableHead>
-          <TableHead>Роли</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {users.map((user) => (
-          <TableRow
-            key={user.id}
-            onClick={() => onClick(user.id)}
-            style={{ cursor: 'pointer' }}
-          >
-            <TableCell>{user.id}</TableCell>
-            <TableCell>{user.email}</TableCell>
-            <TableCell>
-              <span
-                className={
-                  'rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold'
-                }
-              >
-                {user.password}
-              </span>
-            </TableCell>
-            <TableCell>{user.roles.join()}</TableCell>
+    <>
+      <Button onClick={() => onClick('')}>Поиск</Button>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>#</TableHead>
+            <TableHead>Email</TableHead>
+            <TableHead>Пароль</TableHead>
+            <TableHead>Роли</TableHead>
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+        </TableHeader>
+        <TableBody>
+          {users.map((user) => (
+            <TableRow
+              key={user.id}
+              onClick={() => onClick(user.email)}
+              style={{ cursor: 'pointer' }}
+            >
+              <TableCell>{user.id}</TableCell>
+              <TableCell>{user.email}</TableCell>
+              <TableCell>
+                <span
+                  className={
+                    'rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold'
+                  }
+                >
+                  {user.password}
+                </span>
+              </TableCell>
+              <TableCell>{user.roles.join()}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </>
   );
 };

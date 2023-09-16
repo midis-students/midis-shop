@@ -9,18 +9,24 @@ import { Label } from '@/components/ui/label.tsx';
 import { useNavigate } from 'react-router-dom';
 import { Input } from '@/components/ui/input.tsx';
 import { Api } from '@/lib/api.ts';
+import { useDebounce } from '@/hooks/useDebounce.ts';
 
-export const UserPopout: FC<{ data: { id: number } }> = ({ data }) => {
+export const UserPopout: FC<{ data: { email: string } }> = ({ data }) => {
   const navigate = useNavigate();
-  const [password, setPassword] = useState('Loading...');
-  const [decrtypedPassword, setDecryptedPassword] = useState('Loading...');
+  const [email, setEmail] = useState(data.email);
+  const defaultText = data.email ? 'Loading...' : '';
+  const [password, setPassword] = useState(defaultText);
+  const [decrtypedPassword, setDecryptedPassword] = useState(defaultText);
+  const debounceEmail = useDebounce<string>(email, 500);
 
   useEffect(() => {
-    Api.instance.decrypt(data.id).then(({ encrypted, decrypted }) => {
-      setPassword(encrypted);
-      setDecryptedPassword(decrypted);
-    });
-  }, [data.id]);
+    if (debounceEmail) {
+      Api.instance.decrypt(debounceEmail).then(({ encrypted, decrypted }) => {
+        setPassword(encrypted);
+        setDecryptedPassword(decrypted);
+      });
+    }
+  }, [debounceEmail]);
 
   return (
     <Dialog open={true} onOpenChange={(value) => !value && navigate(-1)}>
@@ -29,6 +35,14 @@ export const UserPopout: FC<{ data: { id: number } }> = ({ data }) => {
           <DialogTitle>Расшифровка</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
+          <div className="flex flex-col gap-2">
+            <Label>Email</Label>
+            <Input
+              type={'email'}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
           <div className="flex flex-col gap-2">
             <Label>Пароль</Label>
             <Input readOnly value={password} />

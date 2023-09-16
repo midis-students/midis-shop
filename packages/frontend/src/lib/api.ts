@@ -1,7 +1,11 @@
 import { useAuth } from '@/store/auth.ts';
 import { Basket, Item, User, UserPassword } from '@/types/api.type.ts';
+import { useBasket } from '@/store/basket.ts';
 
-export const logout = () => useAuth.setState({ access_token: null });
+export const logout = () => {
+  useAuth.setState({ access_token: null });
+  useBasket.setState({ items: [] });
+};
 
 export class Api {
   readonly baseUrl = 'http://localhost:3000/';
@@ -11,7 +15,7 @@ export class Api {
   static instance = new Api();
 
   me() {
-    return this.request('auth/me', { method: 'GET' });
+    return this.request<User>('auth/me', { method: 'GET' });
   }
 
   basket(): Promise<Array<Basket>> {
@@ -73,8 +77,8 @@ export class Api {
     return this.request<Item>(`shop/${id}`, { method: 'DELETE' });
   }
 
-  decrypt(userId: number) {
-    return this.request<UserPassword>(`auth/decrypt/${userId}`, {
+  decrypt(email: string) {
+    return this.request<UserPassword>(`auth/decrypt/${email}`, {
       method: 'GET',
     });
   }

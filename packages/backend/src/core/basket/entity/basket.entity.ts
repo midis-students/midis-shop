@@ -1,11 +1,4 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from '@/core/user/entities/user.entity';
 import { Item } from '@/core/shop/entities/item.entity';
 
@@ -17,10 +10,7 @@ export class Basket {
   @ManyToOne(() => User, (auth) => auth.basket)
   user: User;
 
-  @OneToOne(() => Item)
+  @ManyToOne(() => Item, { onDelete: 'CASCADE' })
   @JoinColumn()
   item: Item;
-
-  @Column()
-  count: number;
 }
