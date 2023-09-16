@@ -1,6 +1,7 @@
 .shop-grid {
     --size: minmax(auto, 220px);
     grid-template-columns: repeat( auto-fit, var(--size) );
+    justify-content: center;
 }
 
 @media screen and (max-width: 490px) {
